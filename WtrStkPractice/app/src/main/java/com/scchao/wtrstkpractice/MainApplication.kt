@@ -4,6 +4,7 @@ import android.app.Application
 import com.scchao.wtrstkpractice.api.networkModule
 import com.scchao.wtrstkpractice.data.preferencesModule
 import com.scchao.wtrstkpractice.data.repository.weatherDataRepoModule
+import com.scchao.wtrstkpractice.ui.model.mainViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -16,7 +17,8 @@ class MainApplication : Application() {
                 listOf(
                     networkModule,
                     preferencesModule,
-                    weatherDataRepoModule
+                    weatherDataRepoModule,
+                    mainViewModel
                 )
             )
         }
