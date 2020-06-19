@@ -46,7 +46,9 @@ class ListFragment : Fragment() {
         if(!cacheList.isEmpty()) {
             applyDataList(cacheList)
         }
+        mainViewModel.preloadData().observe(this, dataObserver)
         mainViewModel.preparedData().observe(this, dataObserver)
+        mainViewModel.preLoadKey()
         return root
     }
 
