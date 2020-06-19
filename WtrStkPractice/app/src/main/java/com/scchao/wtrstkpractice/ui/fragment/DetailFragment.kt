@@ -20,6 +20,7 @@ class DetailFragment : Fragment() {
     var coord: TextView? = null
     var icon: ImageView? = null
     var temper: TextView? = null
+    var describe: TextView? = null
 
     private val detailViewModel: DetailViewModel by viewModel()
 
@@ -45,11 +46,13 @@ class DetailFragment : Fragment() {
         coord = root.findViewById(R.id.title_coord)
         icon = root.findViewById(R.id.icon_image)
         temper = root.findViewById(R.id.title_temper)
+        describe = root.findViewById(R.id.title_wtdescribe)
         detailViewModel.liveLocation().observe(this, locationObserver)
         detailViewModel.liveRegion().observe(this, regionObserver)
         detailViewModel.liveCoord().observe(this, coordObserver)
         detailViewModel.liveImgUrl().observe(this, iconObserver)
         detailViewModel.liveTempText().observe(this, temperObserver)
+        detailViewModel.liveWeatherDescribe().observe(this, describeObserver)
         weatherData?.let {
             detailViewModel.setWeatherData(it)
         } ?: run {
@@ -73,6 +76,10 @@ class DetailFragment : Fragment() {
 
     private val temperObserver = Observer<String> { str ->
         temper?.text = str
+    }
+
+    private val describeObserver = Observer<String> { str ->
+        describe?.text = str
     }
 
     private val iconObserver = Observer<String> { str ->

@@ -43,12 +43,13 @@ class ListFragment : Fragment() {
                 mainViewModel.search(editText?.text.toString())
             }
         }
-        if (!cacheList.isEmpty()) {
-            applyDataList(cacheList)
-        }
         mainViewModel.preloadData().observe(this, dataObserver)
         mainViewModel.preparedData().observe(this, dataObserver)
-        mainViewModel.preLoadKey()
+        if (!cacheList.isEmpty()) {
+            applyDataList(cacheList)
+        } else {
+            mainViewModel.preLoadKey()
+        }
         return root
     }
 
