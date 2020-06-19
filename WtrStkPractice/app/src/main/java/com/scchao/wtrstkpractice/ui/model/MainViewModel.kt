@@ -71,12 +71,15 @@ class MainViewModel(
 
     fun loadSearchedKeys(): MutableList<String> {
         var keys = mutableListOf<String>()
-        val loadList =
-            Gson().fromJson(sharedPreferences.getString(SAVE_KEY, ""), Array<String>::class.java)
-                .asList()
-        loadList.forEach { string ->
-            loggedKeys.put(string, true)
-            keys.add(string)
+        var loadKeysStr = sharedPreferences.getString(SAVE_KEY, "")
+        loadKeysStr?.let {
+            val loadList =
+                Gson().fromJson(loadKeysStr, Array<String>::class.java)
+                    .asList()
+            loadList.forEach { string ->
+                loggedKeys.put(string, true)
+                keys.add(string)
+            }
         }
         return keys
     }
