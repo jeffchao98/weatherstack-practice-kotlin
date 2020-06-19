@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EFEFEF"
-        >
+        android:background="#EFEFEF">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="30dp"
-            >
+            android:padding="30dp">
+
             <TextView
                 android:id="@+id/title_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="#000000"
-                android:text="_location"
-                android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
-                />
+                android:layout_centerHorizontal="true"
+                android:text="_location"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+
             <TextView
                 android:id="@+id/title_region"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#000000"
+                android:layout_below="@id/title_location"
                 android:layout_centerHorizontal="true"
                 android:text="_region"
-                android:layout_below="@id/title_location"
-                />
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/title_coord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#000000"
+                android:layout_below="@id/title_region"
                 android:layout_centerHorizontal="true"
                 android:text="_region"
-                android:layout_below="@id/title_region"
-                />
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
             <ImageView
                 android:id="@+id/icon_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginVertical="20dp"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/title_coord"
-                />
+                android:layout_centerHorizontal="true"
+                android:layout_marginVertical="20dp" />
+
             <TextView
                 android:id="@+id/title_temper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#000000"
+                android:layout_below="@id/icon_image"
                 android:layout_centerHorizontal="true"
                 android:text="_temper"
-                android:layout_below="@id/icon_image"
-                />
+                android:textColor="#000000"
+                android:textSize="20sp" />
 
         </RelativeLayout>
     </ScrollView>

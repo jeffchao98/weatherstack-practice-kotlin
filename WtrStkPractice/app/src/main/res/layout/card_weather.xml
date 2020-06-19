@@ -19,42 +19,43 @@
                 android:id="@+id/status_box"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:orientation="vertical"
-                >
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tempter"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
+
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
+
             <ImageView
                 android:id="@+id/status_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                />
+                android:layout_centerVertical="true" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/status_box"
-                android:layout_toRightOf="@id/status_image"
                 android:layout_centerVertical="true"
                 android:layout_marginHorizontal="10dp"
-                >
+                android:layout_toLeftOf="@id/status_box"
+                android:layout_toRightOf="@id/status_image">
+
                 <TextView
                     android:id="@+id/location_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
-                    android:textSize="18sp"
-                    />
+                    android:layout_centerVertical="true"
+                    android:textSize="18sp" />
             </RelativeLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
