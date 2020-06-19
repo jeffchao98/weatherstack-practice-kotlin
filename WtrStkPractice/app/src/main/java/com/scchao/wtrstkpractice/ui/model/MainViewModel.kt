@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.scchao.wtrstkpractice.data.model.Weather
 import com.scchao.wtrstkpractice.data.repository.WeatherDataRepository
 import org.koin.dsl.module
@@ -27,8 +26,8 @@ class MainViewModel(
         liveData {
             var returnData: MutableList<Weather> = mutableListOf()
             returnData = assembleWeatherList(null, "")
-            inKeys?.let {keys ->
-                keys.forEach {key ->
+            inKeys?.let { keys ->
+                keys.forEach { key ->
                     try {
                         val fetchRes = weatherDataRepository.queryWeather(key)
                         returnData = assembleWeatherList(fetchRes, key)
@@ -65,13 +64,16 @@ class MainViewModel(
     fun search(key: String) {
         searchKey.value = key
     }
+
     fun preLoadKey() {
         preLoadKeys.value = loadSearchedKeys()
     }
 
     fun loadSearchedKeys(): MutableList<String> {
         var keys = mutableListOf<String>()
-        val loadList = Gson().fromJson(sharedPreferences.getString(SAVE_KEY, ""), Array<String>::class.java).asList()
+        val loadList =
+            Gson().fromJson(sharedPreferences.getString(SAVE_KEY, ""), Array<String>::class.java)
+                .asList()
         loadList.forEach { string ->
             loggedKeys.put(string, true)
             keys.add(string)

@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.FrameLayout
-import androidx.viewpager.widget.ViewPager
 import com.scchao.wtrstkpractice.data.model.Weather
 import com.scchao.wtrstkpractice.ui.fragment.DetailFragment
 import com.scchao.wtrstkpractice.ui.fragment.ListFragment

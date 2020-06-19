@@ -39,11 +39,11 @@ class ListFragment : Fragment() {
         gridView = root.findViewById(R.id.grid_list)
         root.findViewById<ImageButton>(R.id.search_button).setOnClickListener {
             val inputText = editText?.text.toString() ?: ""
-            if(!inputText.isEmpty()){
+            if (!inputText.isEmpty()) {
                 mainViewModel.search(editText?.text.toString())
             }
         }
-        if(!cacheList.isEmpty()) {
+        if (!cacheList.isEmpty()) {
             applyDataList(cacheList)
         }
         mainViewModel.preloadData().observe(this, dataObserver)
@@ -54,7 +54,7 @@ class ListFragment : Fragment() {
 
     private var cacheList: MutableList<Weather> = mutableListOf()
 
-    private val dataObserver = Observer<MutableList<Weather>> {itData ->
+    private val dataObserver = Observer<MutableList<Weather>> { itData ->
         applyDataList(itData)
     }
 

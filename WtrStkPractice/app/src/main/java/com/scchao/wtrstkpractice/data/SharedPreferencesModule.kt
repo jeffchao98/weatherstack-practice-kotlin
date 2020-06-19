@@ -17,4 +17,5 @@ val preferencesModule = module {
 private const val PREFERENCE_KEY = "com.scchao.wtrdtk_preferences"
 
 private fun setupSharedPreferences(app: Application): SharedPreferences = app.getSharedPreferences(
-    PREFERENCE_KEY, Context.MODE_PRIVATE)
+    PREFERENCE_KEY, Context.MODE_PRIVATE
+)

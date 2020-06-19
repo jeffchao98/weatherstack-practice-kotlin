@@ -7,6 +7,6 @@ val weatherDataRepoModule = module {
     factory { WeatherDataRepository(get()) }
 }
 
-class WeatherDataRepository ( private val weatherAPI: WeatherAPI ) {
+class WeatherDataRepository(private val weatherAPI: WeatherAPI) {
     suspend fun queryWeather(key: String) = weatherAPI.queryCurrentWeather(key)
 }

@@ -9,7 +9,6 @@ import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import com.scchao.wtrstkpractice.R
 import com.scchao.wtrstkpractice.data.model.Weather
-import java.text.DecimalFormat
 
 class WeatherCardView @JvmOverloads constructor(
     context: Context,

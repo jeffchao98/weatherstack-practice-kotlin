@@ -39,7 +39,6 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val inputStr = arguments?.getString("detail_prop")
-//        System.out.println("Get input prop ${inputStr}")
         val root = inflater.inflate(R.layout.fragment_detail, container, false)
         location = root.findViewById(R.id.title_location)
         region = root.findViewById(R.id.title_region)
@@ -56,31 +55,30 @@ class DetailFragment : Fragment() {
         } ?: run {
             detailViewModel.setWeatherData(arguments?.getSerializable("weather_detail") as Weather?)
         }
-//        root.findViewById<TextView>(R.id.title_text).text = inputStr
 
         return root
     }
 
-    private val locationObserver = Observer<String> {str ->
+    private val locationObserver = Observer<String> { str ->
         location?.text = str
     }
 
-    private val regionObserver = Observer<String> {str ->
+    private val regionObserver = Observer<String> { str ->
         region?.text = str
     }
 
-    private val coordObserver = Observer<String> {str ->
+    private val coordObserver = Observer<String> { str ->
         coord?.text = str
     }
 
-    private val temperObserver = Observer<String> {str ->
+    private val temperObserver = Observer<String> { str ->
         temper?.text = str
     }
 
-    private val iconObserver = Observer<String> {str ->
-        str?.let{
-            if(it.length > 0) {
-                icon?.let{view ->
+    private val iconObserver = Observer<String> { str ->
+        str?.let {
+            if (it.length > 0) {
+                icon?.let { view ->
                     Glide.with(context).load(it).into(view)
                 }
             }

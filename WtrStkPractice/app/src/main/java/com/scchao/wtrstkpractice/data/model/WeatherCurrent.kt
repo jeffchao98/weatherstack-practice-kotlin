@@ -14,4 +14,4 @@ data class WeatherCurrent(
     @SerializedName("pressure") val pressure: Int,
     @SerializedName("humidity") val humidity: Int,
     @SerializedName("feelslike") val feelslike: Int
-    )
+)
