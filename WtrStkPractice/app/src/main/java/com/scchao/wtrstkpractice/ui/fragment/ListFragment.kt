@@ -38,7 +38,10 @@ class ListFragment : Fragment() {
         editText = root.findViewById(R.id.input_key)
         gridView = root.findViewById(R.id.grid_list)
         root.findViewById<ImageButton>(R.id.search_button).setOnClickListener {
-            mainViewModel.search(editText?.text.toString())
+            val inputText = editText?.text.toString() ?: ""
+            if(!inputText.isEmpty()){
+                mainViewModel.search(editText?.text.toString())
+            }
         }
         if(!cacheList.isEmpty()) {
             applyDataList(cacheList)
