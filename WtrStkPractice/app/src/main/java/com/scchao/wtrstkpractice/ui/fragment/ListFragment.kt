@@ -1,6 +1,9 @@
 package com.scchao.wtrstkpractice.ui.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +48,7 @@ class ListFragment : Fragment() {
         }
         mainViewModel.preloadData().observe(this, dataObserver)
         mainViewModel.preparedData().observe(this, dataObserver)
+        mainViewModel.modifiedData().observe(this, dataObserver)
         if (!cacheList.isEmpty()) {
             applyDataList(cacheList)
         } else {
@@ -61,6 +65,7 @@ class ListFragment : Fragment() {
 
     private fun applyDataList(list: MutableList<Weather>) {
         context?.let { itContext ->
+            Log.d("applyDataList", "data changed")
             cacheList = list
             val gridAdapter = GridAdapter(itContext, list)
             gridView?.adapter = gridAdapter
@@ -68,6 +73,24 @@ class ListFragment : Fragment() {
                 val selectData = list.get(position)
                 System.out.println("${selectData.location.name} touched")
                 callback?.onItemClick(selectData)
+            }
+            gridView?.setOnItemLongClickListener { parent, view, position, id ->
+                val selectData = list.get(position)
+
+                System.out.println("${selectData.location.name} long clicked")
+                val builder: AlertDialog.Builder? = AlertDialog.Builder(itContext)
+                builder?.setMessage(R.string.confirm_action)
+                builder?.apply {
+                    setPositiveButton(R.string.delete, DialogInterface.OnClickListener{dialog, which ->
+                        mainViewModel.delete(selectData)
+                    })
+                    setNegativeButton(R.string.cancel, DialogInterface.OnClickListener{dialog, which ->
+
+                    })
+                }
+                val dialog: AlertDialog? = builder?.create()
+                dialog?.show()
+                true
             }
         }
     }
