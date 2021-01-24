@@ -41,6 +41,7 @@ class MainViewModel(
     }
 
     private val searchKey = MutableLiveData<String>()
+    private val delWeather = MutableLiveData<Weather>()
 
     private val searchData = searchKey.switchMap { t1 ->
         liveData {
@@ -59,10 +60,23 @@ class MainViewModel(
         }
     }
 
+    private val removeData = delWeather.switchMap { t1 ->
+        liveData {
+            var returnData: MutableList<Weather> = mutableListOf()
+            returnData = removeFromWeatherList(t1)
+            emit(returnData)
+        }
+    }
+
     fun preparedData(): LiveData<MutableList<Weather>> = searchData
     fun preloadData(): LiveData<MutableList<Weather>> = preloadData
+    fun modifiedData(): LiveData<MutableList<Weather>> = removeData
     fun search(key: String) {
         searchKey.value = key
+    }
+
+    fun delete(weather: Weather) {
+        delWeather.value = weather
     }
 
     fun preLoadKey() {
@@ -94,6 +108,15 @@ class MainViewModel(
         editor.commit()
     }
 
+    private fun delSearchedKeys(key: String) {
+        loggedKeys.remove(key)
+        val keys = loggedKeys.keys.toList()
+        val inStr = Gson().toJson(keys)
+        val editor = sharedPreferences.edit()
+        editor.putString(SAVE_KEY, inStr)
+        editor.commit()
+    }
+
     private fun assembleWeatherList(weather: Weather?, key: String): MutableList<Weather> {
         weather?.let {
             val location = it.location?.name ?: ""
@@ -101,7 +124,26 @@ class MainViewModel(
                 if (dataMap.get(location) == null) {
                     saveSearchedKeys(key)
                 }
+                it.searchKey = key
                 dataMap.put(location, it)
+            }
+        }
+        val mapKey = dataMap.keys.toList()
+        var rtList = mutableListOf<Weather>()
+        mapKey.forEach { key ->
+            dataMap.get(key)?.let { item ->
+                rtList.add(item)
+            }
+        }
+        return rtList
+    }
+
+    private fun removeFromWeatherList(item: Weather?): MutableList<Weather> {
+        item?.let {
+            val location = it.location.name
+            if (!location.isEmpty()) {
+                dataMap.remove(location)
+                delSearchedKeys(it.searchKey)
             }
         }
         val mapKey = dataMap.keys.toList()
