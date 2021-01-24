@@ -3,7 +3,6 @@ package com.scchao.wtrstkpractice
 import android.app.Application
 import com.scchao.wtrstkpractice.api.networkModule
 import com.scchao.wtrstkpractice.data.room.dbSetupModule
-import com.scchao.wtrstkpractice.data.preferencesModule
 import com.scchao.wtrstkpractice.data.repository.keywordRepoModule
 import com.scchao.wtrstkpractice.data.repository.weatherDataRepoModule
 import com.scchao.wtrstkpractice.ui.model.detailViewModel
@@ -19,7 +18,6 @@ class MainApplication : Application() {
             modules(
                 listOf(
                     networkModule,
-                    preferencesModule,
                     dbSetupModule(),
                     keywordRepoModule,
                     weatherDataRepoModule,
