@@ -6,5 +6,6 @@ import java.io.Serializable
 data class Weather(
     @SerializedName("request") var request: WeatherRequest,
     @SerializedName("location") var location: WeatherLocation,
-    @SerializedName("current") var current: WeatherCurrent
+    @SerializedName("current") var current: WeatherCurrent,
+    var searchKey: String
 ) : Serializable
