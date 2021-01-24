@@ -15,6 +15,10 @@ class KeyWordRepository(private val keywordDao: KeywordDAO) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun loadAll() = keywordDao.getAllWords()
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun insert(keyword: String) = keywordDao.insert(KeyWord((keyword)))
 
     @Suppress("RedundantSuspendModifier")
