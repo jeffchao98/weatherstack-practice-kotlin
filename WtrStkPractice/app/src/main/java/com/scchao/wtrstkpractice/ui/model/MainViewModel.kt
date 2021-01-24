@@ -1,36 +1,36 @@
 package com.scchao.wtrstkpractice.ui.model
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
-import com.google.gson.Gson
 import com.scchao.wtrstkpractice.data.model.Weather
+import com.scchao.wtrstkpractice.data.repository.KeyWordRepository
 import com.scchao.wtrstkpractice.data.repository.WeatherDataRepository
 import org.koin.dsl.module
 
 val mainViewModel = module {
     factory { MainViewModel(get(), get()) }
 }
-const val SAVE_KEY = "Log_Search_Key"
 
 class MainViewModel(
     private val weatherDataRepository: WeatherDataRepository,
-    private val sharedPreferences: SharedPreferences
+    private val keyWordRepository: KeyWordRepository
 ) : ViewModel() {
     private var dataMap: MutableMap<String, Weather> = mutableMapOf()
     private var loggedKeys: MutableMap<String, Boolean> = mutableMapOf()
 
-    private val preLoadKeys = MutableLiveData<MutableList<String>>()
+    private val preLoad = MutableLiveData<Boolean>()
 
-    private val preloadData = preLoadKeys.switchMap { inKeys ->
+    private val preloadData = preLoad.switchMap { inKeys ->
         liveData {
             var returnData: MutableList<Weather> = mutableListOf()
             returnData = assembleWeatherList(null, "")
+            var inKeys = keyWordRepository.loadAll()
             inKeys?.let { keys ->
                 keys.forEach { key ->
+                    loggedKeys.put(key.keyword, true)
                     try {
-                        val fetchRes = weatherDataRepository.queryWeather(key)
-                        returnData = assembleWeatherList(fetchRes, key)
+                        val fetchRes = weatherDataRepository.queryWeather(key.keyword)
+                        returnData = assembleWeatherList(fetchRes, key.keyword)
                     } catch (exception: Throwable) {
                         Log.i("Error", exception.message)
                     }
@@ -51,6 +51,7 @@ class MainViewModel(
             } ?: run {
                 try {
                     val fetchRes = weatherDataRepository.queryWeather(t1)
+                    keyWordRepository.insert(t1)
                     returnData = assembleWeatherList(fetchRes, t1)
                 } catch (exception: Throwable) {
                     Log.i("Error", exception.message)
@@ -64,6 +65,7 @@ class MainViewModel(
         liveData {
             var returnData: MutableList<Weather> = mutableListOf()
             returnData = removeFromWeatherList(t1)
+            keyWordRepository.remove(t1.searchKey)
             emit(returnData)
         }
     }
@@ -80,50 +82,13 @@ class MainViewModel(
     }
 
     fun preLoadKey() {
-        preLoadKeys.value = loadSearchedKeys()
-    }
-
-    fun loadSearchedKeys(): MutableList<String> {
-        var keys = mutableListOf<String>()
-        var loadKeysStr = sharedPreferences.getString(SAVE_KEY, "[]")
-        loadKeysStr?.let {
-            val loadGson = Gson().fromJson(it, Array<String>::class.java)
-            loadGson?.let {
-                val loadList = loadGson.asList()
-                loadList.forEach { string ->
-                    loggedKeys.put(string, true)
-                    keys.add(string)
-                }
-            }
-        }
-        return keys
-    }
-
-    private fun saveSearchedKeys(key: String) {
-        loggedKeys.put(key, true)
-        val keys = loggedKeys.keys.toList()
-        val inStr = Gson().toJson(keys)
-        val editor = sharedPreferences.edit()
-        editor.putString(SAVE_KEY, inStr)
-        editor.commit()
-    }
-
-    private fun delSearchedKeys(key: String) {
-        loggedKeys.remove(key)
-        val keys = loggedKeys.keys.toList()
-        val inStr = Gson().toJson(keys)
-        val editor = sharedPreferences.edit()
-        editor.putString(SAVE_KEY, inStr)
-        editor.commit()
+        preLoad.value = true
     }
 
     private fun assembleWeatherList(weather: Weather?, key: String): MutableList<Weather> {
         weather?.let {
             val location = it.location?.name ?: ""
             if (!location.isEmpty()) {
-                if (dataMap.get(location) == null) {
-                    saveSearchedKeys(key)
-                }
                 it.searchKey = key
                 dataMap.put(location, it)
             }
@@ -143,7 +108,6 @@ class MainViewModel(
             val location = it.location.name
             if (!location.isEmpty()) {
                 dataMap.remove(location)
-                delSearchedKeys(it.searchKey)
             }
         }
         val mapKey = dataMap.keys.toList()
